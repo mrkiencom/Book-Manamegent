@@ -16,8 +16,5 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
   ],
-  // controllers: [UserController],
-  // controllers: [BookController],
-  // providers: [BookService],
 })
 export class AppModule {}
