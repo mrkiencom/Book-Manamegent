@@ -14,8 +14,9 @@ export class BookService {
   constructor(
     @InjectRepository(BookRepository) private bookRepository: BookRepository,
   ) {}
-  async getAllBook(): Promise<Book[]> {
-    return await this.bookRepository.find();
+  async getBooks(searchBooks: string): Promise<Book[]> {
+    // return await this.bookRepository.find({ title: searchBooks });
+    return this.bookRepository.getBook(searchBooks);
   }
   async getBookById(id: string): Promise<Book> {
     const found = await this.bookRepository.findOne({ id });

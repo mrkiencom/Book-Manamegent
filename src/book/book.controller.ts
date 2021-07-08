@@ -6,7 +6,10 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/user/user.entity';
 import { Book } from './book.entity';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
@@ -15,8 +18,8 @@ import { BookDto } from './dto/book-dto';
 export class BookController {
   constructor(private bookService: BookService) {}
   @Get()
-  getAllBook(): Promise<Book[]> {
-    return this.bookService.getAllBook();
+  getBooks(@Query('search') searchBook: string): Promise<Book[]> {
+    return this.bookService.getBooks(searchBook);
   }
   @Get('/:id')
   getBookById(@Param('id') id: string): Promise<Book> {

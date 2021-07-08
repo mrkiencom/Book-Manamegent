@@ -19,7 +19,7 @@ export class Book {
   publish_year: string;
   @Column()
   @IsNotEmpty()
-  price: number;
+  price: string;
   @Column()
   description: string;
   @Column()

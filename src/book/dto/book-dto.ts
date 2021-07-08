@@ -10,7 +10,7 @@ export class BookDto {
   @IsNotEmpty()
   publish_year: string;
   @IsNotEmpty()
-  price: number;
+  price: string;
   description: string;
   @IsNotEmpty()
   cover: string;
