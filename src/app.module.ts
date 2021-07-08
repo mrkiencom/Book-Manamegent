@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthorModule } from './author/author.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
