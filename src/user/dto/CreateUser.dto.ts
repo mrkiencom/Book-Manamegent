@@ -8,7 +8,7 @@ export class createUserDTO {
   @MaxLength(40)
   @MinLength(8)
   password: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
 }
