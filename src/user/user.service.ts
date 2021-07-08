@@ -22,9 +22,9 @@ export class UserService {
     }
     return found;
   }
-  updateUserById(id: string, info: createUserDTO): Promise<User> {
+  async updateUserById(id: string, info: createUserDTO): Promise<User> {
     const { email, password, firstName, lastName, avatar } = info;
-    return this.userRepository.save({
+    return await this.userRepository.save({
       id: id,
       email: email,
       password: password,

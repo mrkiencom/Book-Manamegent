@@ -11,7 +11,6 @@ export class AuthController {
     return this.authService.signIn(account);
   }
   @Post('/test')
-  @UseGuards(AuthGuard())
   test(@Req() req) {
     console.log(req);
   }

@@ -13,6 +13,7 @@ import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
+@UseGuards(AuthGuard())
 export class UserController {
   constructor(private userService: UserService) {}
   @Get('/:id')
@@ -31,7 +32,6 @@ export class UserController {
     return this.userService.updateUserById(id, info);
   }
   @Get()
-  @UseGuards(AuthGuard())
   get(): Promise<User[]> {
     return this.userService.get();
   }
