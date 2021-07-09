@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -12,6 +14,7 @@ import { CategoryRepository } from './category.repository';
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryRepository)
+    @Inject(forwardRef(() => CategoryService))
     private categoryRepository: CategoryRepository,
   ) {}
   async getAllCategory(): Promise<Category[]> {

@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -12,6 +14,7 @@ import { AuthorRepository } from './author.repository';
 export class AuthorService {
   constructor(
     @InjectRepository(AuthorRepository)
+    @Inject(forwardRef(() => AuthorService))
     private authorRepository: AuthorRepository,
   ) {}
 

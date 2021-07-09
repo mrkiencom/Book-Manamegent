@@ -1,5 +1,8 @@
 import { Contains, IsDefined, IsNotEmpty, IsOptional } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Author } from 'src/author/author.entity';
+import { Category } from 'src/category/category.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BookService } from './book.service';
 
 @Entity()
 export class Book {
@@ -21,14 +24,24 @@ export class Book {
   @IsNotEmpty()
   price: string;
   @Column()
+  @IsNotEmpty()
   description: string;
   @Column()
   @IsNotEmpty()
   cover: string;
   @Column()
   @IsNotEmpty()
-  createdAt: Date;
+  createdAt: string;
   @Column()
   @IsOptional()
-  updatedAt: Date;
+  updatedAt: string;
+  @ManyToOne((_type) => Author, (author) => author.books, {
+    eager: false,
+  })
+  author: Author;
+
+  @ManyToOne((_type) => Category, (category) => category.books, {
+    eager: false,
+  })
+  category: Category;
 }
