@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './book.entity';
 import { BookRepository } from './book.repository';
 import { BookDto } from './dto/book-dto';
+import { getDateNow } from './func/get-date';
 
 @Injectable()
 export class BookService {
@@ -34,8 +35,6 @@ export class BookService {
       price,
       description,
       cover,
-      createdAt,
-      updatedAt,
     } = newBook;
     try {
       return await this.bookRepository.save({
@@ -46,8 +45,8 @@ export class BookService {
         price,
         description,
         cover,
-        createdAt,
-        updatedAt,
+        createdAt: getDateNow(),
+        updateAt: null,
       });
     } catch (error) {
       console.log(error);
@@ -56,6 +55,7 @@ export class BookService {
       } else throw new InternalServerErrorException();
     }
   }
+
   async updateBook(id: string, updateInfoBook: BookDto): Promise<Book> {
     const found = this.getBookById(id);
     if (!found) {
@@ -69,10 +69,9 @@ export class BookService {
         price,
         description,
         cover,
-        createdAt,
-        updatedAt,
       } = updateInfoBook;
       return this.bookRepository.save({
+        ...found,
         id: id,
         title: title,
         author_id: author_id,
@@ -81,8 +80,7 @@ export class BookService {
         price: price,
         description: description,
         cover: cover,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
+        updatedAt: getDateNow(),
       });
     }
   }

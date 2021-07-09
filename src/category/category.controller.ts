@@ -12,6 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Category } from './category.entity';
 import { CategoryService } from './category.service';
 @Controller('category')
+@UseGuards(AuthGuard())
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
   @Get()

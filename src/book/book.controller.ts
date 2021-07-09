@@ -7,7 +7,9 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/user/user.entity';
 import { Book } from './book.entity';
@@ -15,6 +17,7 @@ import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
 
 @Controller('book')
+@UseGuards(AuthGuard())
 export class BookController {
   constructor(private bookService: BookService) {}
   @Get()

@@ -14,7 +14,4 @@ export class BookDto {
   description: string;
   @IsNotEmpty()
   cover: string;
-  @IsNotEmpty()
-  createdAt: Date;
-  updatedAt: Date;
 }

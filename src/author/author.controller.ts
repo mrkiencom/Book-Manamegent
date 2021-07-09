@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Author } from './author.entity';
 import { AuthorService } from './author.service';
 
 @Controller('author')
+@UseGuards(AuthGuard())
 export class AuthorController {
   constructor(private authorService: AuthorService) {}
   @Get()
