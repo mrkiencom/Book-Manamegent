@@ -7,6 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from './author.entity';
 import { AuthorRepository } from './author.repository';
+import { AuthorDto } from './dto/author-update.dto';
 
 @Injectable()
 export class AuthorService {
@@ -25,7 +26,8 @@ export class AuthorService {
     }
     return found;
   }
-  async updateAuthor(id: string, name: string): Promise<Author> {
+  async updateAuthor(id: string, updateDto: AuthorDto): Promise<Author> {
+    const { name } = updateDto;
     const found = await this.getAuthorById(id);
     if (found) {
       console.log(found);
