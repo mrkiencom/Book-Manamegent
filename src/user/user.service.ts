@@ -24,13 +24,21 @@ export class UserService {
   }
   updateUserById(id: string, info: createUserDTO): Promise<User> {
     const { email, password, firstName, lastName, avatar } = info;
-    return this.userRepository.save({
-      id: id,
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-      avata: avatar,
-    });
+    const user = this.userRepository.findOne({ id });
+    if (!user) {
+      throw new NotFoundException(`Not found user with id=${id}`);
+    }
+    try {
+      return this.userRepository.save({
+        id: id,
+        email: email,
+        password: password,
+        first_Name: firstName,
+        last_Name: lastName,
+        avata: avatar,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
