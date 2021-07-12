@@ -30,7 +30,6 @@ export class AuthorService {
     const { name } = updateDto;
     const found = await this.getAuthorById(id);
     if (found) {
-      console.log(found);
       found.name = name;
       return await this.authorRepository.save(found);
     }
