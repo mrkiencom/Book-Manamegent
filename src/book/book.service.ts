@@ -29,22 +29,22 @@ export class BookService {
   async createBook(newBook: BookDto): Promise<Book> {
     const {
       title,
-      author_id,
-      category_id,
-      publish_year,
+      authorId,
+      categoryId,
+      publishYear,
       price,
       description,
       cover,
     } = newBook;
     try {
       return await this.bookRepository.save({
-        title,
-        author_id,
-        category_id,
-        publish_year,
-        price,
-        description,
-        cover,
+        title: title,
+        author_id: authorId,
+        category_id: categoryId,
+        publish_year: publishYear,
+        price: price,
+        description: description,
+        cover: cover,
         createdAt: getDateNow(),
         updateAt: null,
       });
@@ -63,9 +63,9 @@ export class BookService {
     } else {
       const {
         title,
-        author_id,
-        category_id,
-        publish_year,
+        authorId,
+        categoryId,
+        publishYear,
         price,
         description,
         cover,
@@ -74,9 +74,9 @@ export class BookService {
         ...found,
         id: id,
         title: title,
-        author_id: author_id,
-        category_id: category_id,
-        publish_year: publish_year,
+        author_id: authorId,
+        category_id: categoryId,
+        publish_year: publishYear,
         price: price,
         description: description,
         cover: cover,
