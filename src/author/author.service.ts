@@ -31,10 +31,8 @@ export class AuthorService {
     const found = await this.getAuthorById(id);
     if (found) {
       console.log(found);
-      return await this.authorRepository.save({
-        id: id,
-        name: name,
-      });
+      found.name = name;
+      return await this.authorRepository.save(found);
     }
   }
   async deleteAuthor(id: string): Promise<string> {
@@ -42,13 +40,19 @@ export class AuthorService {
     if (!found) {
       throw new NotFoundException(`Not Found User with ID=${id}`);
     } else {
-      await this.authorRepository.delete({ id });
-      return 'delete succes ! ';
+      found.is_delete = true;
+      try {
+        await this.authorRepository.save(found);
+        return 'delete succes ! ';
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   async createAuthor(name: string): Promise<Author> {
     const newAuthor = {
       name: name,
+      is_delete: false,
     };
     try {
       return await this.authorRepository.save(newAuthor);

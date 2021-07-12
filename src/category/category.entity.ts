@@ -8,4 +8,6 @@ export class Category {
   @Column()
   @IsNotEmpty()
   name: string;
+  @Column()
+  is_delete: boolean;
 }

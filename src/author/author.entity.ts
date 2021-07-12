@@ -8,4 +8,6 @@ export class Author {
   @Column()
   @IsNotEmpty()
   name: string;
+  @Column()
+  is_delete: boolean;
 }

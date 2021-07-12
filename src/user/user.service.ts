@@ -25,6 +25,7 @@ export class UserService {
   async updateUserById(id: string, info: createUserDTO): Promise<User> {
     const { email, password, firstName, lastName, avatar } = info;
     return await this.userRepository.save({
+      ...info,
       id: id,
       email: email,
       password: password,

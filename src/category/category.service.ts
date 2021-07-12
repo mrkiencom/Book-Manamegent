@@ -27,6 +27,7 @@ export class CategoryService {
   async createCategory(name: string): Promise<Category> {
     const newCategory = {
       name: name,
+      is_delete: false,
     };
     try {
       return await this.categoryRepository.save(newCategory);
@@ -50,7 +51,7 @@ export class CategoryService {
     if (!found) {
       throw new NotFoundException(`Not Found User with ID=${id}`);
     } else {
-      await this.categoryRepository.delete({ id });
+      await this.categoryRepository.save({ ...found, is_delete: true });
       return 'delete category succes ! ';
     }
   }

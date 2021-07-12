@@ -47,6 +47,7 @@ export class BookService {
         cover: cover,
         createdAt: getDateNow(),
         updateAt: null,
+        is_delete: false,
       });
     } catch (error) {
       console.log(error);
@@ -89,8 +90,15 @@ export class BookService {
     if (!found) {
       throw new NotFoundException(`Not Found User with ID=${id}`);
     } else {
-      await this.bookRepository.delete({ id });
-      return `delete book with Id=${id} is succes !`;
+      try {
+        await this.bookRepository.save({
+          ...found,
+          is_delete: true,
+        });
+        return `delete book with Id=${id} is succes !`;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 }

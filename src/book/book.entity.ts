@@ -31,4 +31,6 @@ export class Book {
   @Column()
   @IsOptional()
   updatedAt: Date;
+  @Column()
+  is_delete: boolean;
 }
