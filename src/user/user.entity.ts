@@ -8,9 +8,9 @@ export class User {
   @Column()
   password: string;
   @Column()
-  firstName: string;
+  first_Name: string;
   @Column()
-  lastName: string;
+  last_Name: string;
   @Column()
   avatar: string;
 }
