@@ -10,8 +10,4 @@ export class AuthController {
   signIn(@Body() account: AuthUser): Promise<{ accessToken: string }> {
     return this.authService.signIn(account);
   }
-  @Post('/test')
-  test(@Req() req) {
-    console.log(req);
-  }
 }

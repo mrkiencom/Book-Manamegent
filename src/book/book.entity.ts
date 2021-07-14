@@ -44,4 +44,6 @@ export class Book {
     eager: false,
   })
   category: Category;
+  @Column()
+  is_delete: boolean;
 }

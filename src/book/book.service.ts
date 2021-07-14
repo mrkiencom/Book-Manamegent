@@ -34,9 +34,9 @@ export class BookService {
   async createBook(newBook: BookDto): Promise<Book> {
     const {
       title,
-      author_id,
-      category_id,
-      publish_year,
+      authorId,
+      categoryId,
+      publishYear,
       price,
       description,
       cover,
@@ -44,27 +44,28 @@ export class BookService {
     const author = await getConnection()
       .getRepository(Author)
       .createQueryBuilder('author')
-      .where('author.id = :author_id', { author_id })
+      .where('author.id = :author_id', { authorId })
       .getOne();
     const category = await getConnection()
       .getRepository(Category)
       .createQueryBuilder('category')
-      .where('category.id = :category_id', { category_id })
+      .where('category.id = :category_id', { categoryId })
       .getOne();
     console.log(author, category);
     try {
       return await this.bookRepository.save({
-        title,
-        author_id,
-        category_id,
-        publish_year,
-        price,
-        description,
-        cover,
+        title: title,
+        author_id: authorId,
+        category_id: categoryId,
+        publish_year: publishYear,
+        price: price,
+        description: description,
+        cover: cover,
         createdAt: getDateNow(),
         updatedAt: '',
         author: author,
         category: category,
+        is_delete: false,
       });
     } catch (error) {
       console.log(error);
@@ -81,9 +82,9 @@ export class BookService {
     } else {
       const {
         title,
-        author_id,
-        category_id,
-        publish_year,
+        authorId,
+        categoryId,
+        publishYear,
         price,
         description,
         cover,
@@ -91,12 +92,12 @@ export class BookService {
       const author = await getConnection()
         .getRepository(Author)
         .createQueryBuilder('author')
-        .where('author.id = :author_id', { author_id })
+        .where('author.id = :author_id', { authorId })
         .getOne();
       const category = await getConnection()
         .getRepository(Category)
         .createQueryBuilder('category')
-        .where('category.id = :category_id', { category_id })
+        .where('category.id = :category_id', { categoryId })
         .getOne();
 
       try {
@@ -104,9 +105,9 @@ export class BookService {
           ...found,
           id: id,
           title: title,
-          author_id: author_id,
-          category_id: category_id,
-          publish_year: publish_year,
+          author_id: authorId,
+          category_id: categoryId,
+          publish_year: publishYear,
           price: price,
           description: description,
           cover: cover,
@@ -127,8 +128,15 @@ export class BookService {
     if (!found) {
       throw new NotFoundException(`Not Found User with ID=${id}`);
     } else {
-      await this.bookRepository.delete({ id });
-      return `delete book with Id=${id} is succes !`;
+      try {
+        await this.bookRepository.save({
+          ...found,
+          is_delete: true,
+        });
+        return `delete book with Id=${id} is succes !`;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 }

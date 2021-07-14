@@ -4,11 +4,11 @@ export class BookDto {
   @IsNotEmpty()
   title: string;
   @IsNotEmpty()
-  author_id: string;
+  authorId: string;
   @IsNotEmpty()
-  category_id: string;
+  categoryId: string;
   @IsNotEmpty()
-  publish_year: string;
+  publishYear: string;
   @IsNotEmpty()
   price: string;
   description: string;

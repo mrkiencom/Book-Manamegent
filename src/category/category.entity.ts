@@ -11,4 +11,6 @@ export class Category {
   name: string;
   @OneToMany((_type) => Book, (book) => book.category, { eager: true })
   books: Book[];
+  @Column()
+  is_delete: boolean;
 }
