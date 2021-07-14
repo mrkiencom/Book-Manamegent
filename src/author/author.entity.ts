@@ -9,10 +9,8 @@ export class Author {
   @Column()
   @IsNotEmpty()
   name: string;
-<<<<<<< HEAD
   @OneToMany((_type) => Book, (book) => book.author, { eager: true })
   books: Book[];
-=======
   @Column()
   is_delete: boolean;
 }

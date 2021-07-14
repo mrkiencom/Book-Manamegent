@@ -13,18 +13,19 @@ import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
-@UseGuards(AuthGuard())
 export class UserController {
   constructor(private userService: UserService) {}
   @Get('/:id')
+  @UseGuards(AuthGuard())
   getUserById(@Param('id') id: string): Promise<User> {
     return this.userService.getUserById(id);
   }
-  @Post()
+  @Post('/signup')
   createUser(@Body() info: createUserDTO): Promise<User> {
     return this.userService.createUser(info);
   }
   @Patch('/:id')
+  @UseGuards(AuthGuard())
   updateUserById(
     @Param('id') id: string,
     @Body() info: createUserDTO,
@@ -32,6 +33,7 @@ export class UserController {
     return this.userService.updateUserById(id, info);
   }
   @Get()
+  @UseGuards(AuthGuard())
   get(): Promise<User[]> {
     return this.userService.get();
   }

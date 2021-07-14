@@ -12,8 +12,12 @@ export class BookRepository extends Repository<Book> {
         search: `%${search}%`,
       });
       const books = await query.getMany();
-      return books;
+      return books.filter((x) => x.is_delete === false);
     }
-    return this.find();
+    return this.find({
+      where: {
+        is_delete: false,
+      },
+    });
   }
 }

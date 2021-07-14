@@ -19,10 +19,16 @@ export class CategoryService {
     private categoryRepository: CategoryRepository,
   ) {}
   async getAllCategory(): Promise<Category[]> {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.find({
+      where: {
+        is_delete: false,
+      },
+    });
   }
   async getCategoryById(id: string): Promise<Category> {
-    const found = await this.categoryRepository.findOne({ id });
+    const found = await this.categoryRepository.findOne({
+      where: { id: id, is_delete: false },
+    });
     if (!found) {
       throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
     }

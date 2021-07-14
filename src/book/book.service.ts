@@ -25,7 +25,12 @@ export class BookService {
     return this.bookRepository.getBook(searchBooks);
   }
   async getBookById(id: string): Promise<Book> {
-    const found = await this.bookRepository.findOne({ id });
+    const found = await this.bookRepository.findOne({
+      where: {
+        id: id,
+        is_delete: false,
+      },
+    });
     if (!found) {
       throw new NotFoundException(`Not Found User with ID=${id}`);
     }
