@@ -15,5 +15,4 @@ export class Author {
 =======
   @Column()
   is_delete: boolean;
->>>>>>> book-api
 }
