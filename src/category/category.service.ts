@@ -35,14 +35,9 @@ export class CategoryService {
     } catch (error) {
       console.log(error);
       if (error.code === 23505) {
-<<<<<<< HEAD
-        throw new ConflictException('Category a already exits');
-      } else throw new InternalServerErrorException();
-=======
         throw new ConflictException('Author a already exits');
       }
       throw new InternalServerErrorException();
->>>>>>> category-api
     }
   }
   async updateCategory(id: string, name: string): Promise<Category> {
