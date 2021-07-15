@@ -11,6 +11,6 @@ export class Author {
   name: string;
   @OneToMany((_type) => Book, (book) => book.author, { eager: true })
   books: Book[];
-  @Column()
-  is_delete: boolean;
+  @Column({ name: 'is_delete' })
+  isDelete: boolean;
 }

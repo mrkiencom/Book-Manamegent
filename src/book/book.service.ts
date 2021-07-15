@@ -49,12 +49,12 @@ export class BookService {
     const author = await getConnection()
       .getRepository(Author)
       .createQueryBuilder('author')
-      .where('author.id = :author_id', { authorId })
+      .where('author.id = :authorId', { authorId })
       .getOne();
     const category = await getConnection()
       .getRepository(Category)
       .createQueryBuilder('category')
-      .where('category.id = :category_id', { categoryId })
+      .where('category.id = :categoryId', { categoryId })
       .getOne();
     console.log(author, category);
     try {
@@ -94,16 +94,15 @@ export class BookService {
         description,
         cover,
       } = updateInfoBook;
-<<<<<<< HEAD
       const author = await getConnection()
         .getRepository(Author)
         .createQueryBuilder('author')
-        .where('author.id = :author_id', { authorId })
+        .where('author.id = :authorId', { authorId })
         .getOne();
       const category = await getConnection()
         .getRepository(Category)
         .createQueryBuilder('category')
-        .where('category.id = :category_id', { categoryId })
+        .where('category.id = :categoryId', { categoryId })
         .getOne();
 
       try {
@@ -127,20 +126,6 @@ export class BookService {
           throw new ConflictException('Book a already exits');
         } else throw new InternalServerErrorException();
       }
-=======
-      return this.bookRepository.save({
-        ...found,
-        id: id,
-        title: title,
-        authorId: authorId,
-        categoryId: categoryId,
-        publishYear: publishYear,
-        price: price,
-        description: description,
-        cover: cover,
-        updatedAt: getDateNow(),
-      });
->>>>>>> book-api
     }
   }
   async deleteBook(id: string): Promise<string> {

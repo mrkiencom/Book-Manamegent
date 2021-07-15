@@ -32,7 +32,7 @@ export class Book {
   @Column({ name: 'create_at' })
   @IsNotEmpty()
   createdAt: string;
-  @Column()
+  @Column({ name: 'update_at' })
   @IsOptional()
   updatedAt: string;
   @ManyToOne((_type) => Author, (author) => author.books, {

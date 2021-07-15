@@ -43,7 +43,7 @@ export class AuthorService {
     if (!found) {
       throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
     } else {
-      found.is_delete = true;
+      found.isDelete = true;
       try {
         await this.authorRepository.save(found);
         return 'delete succes ! ';
@@ -55,7 +55,7 @@ export class AuthorService {
   async createAuthor(name: string): Promise<Author> {
     const newAuthor = {
       name: name,
-      is_delete: false,
+      isDelete: false,
     };
     try {
       return await this.authorRepository.save(newAuthor);

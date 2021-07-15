@@ -21,13 +21,13 @@ export class CategoryService {
   async getAllCategory(): Promise<Category[]> {
     return await this.categoryRepository.find({
       where: {
-        is_delete: false,
+        isDelete: false,
       },
     });
   }
   async getCategoryById(id: string): Promise<Category> {
     const found = await this.categoryRepository.findOne({
-      where: { id: id, is_delete: false },
+      where: { id: id, isDelete: false },
     });
     if (!found) {
       throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
@@ -37,7 +37,7 @@ export class CategoryService {
   async createCategory(name: string): Promise<Category> {
     const newCategory = {
       name: name,
-      is_delete: false,
+      isDelete: false,
     };
     try {
       return await this.categoryRepository.save(newCategory);
@@ -62,7 +62,7 @@ export class CategoryService {
     if (!found) {
       throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
     } else {
-      await this.categoryRepository.save({ ...found, is_delete: true });
+      await this.categoryRepository.save({ ...found, isDelete: true });
       return 'delete category succes ! ';
     }
   }

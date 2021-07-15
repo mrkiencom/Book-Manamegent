@@ -12,11 +12,11 @@ export class BookRepository extends Repository<Book> {
         search: `%${search}%`,
       });
       const books = await query.getMany();
-      return books.filter((x) => x.is_delete === false);
+      return books.filter((x) => x.isDelete === false);
     }
     return this.find({
       where: {
-        is_delete: false,
+        isDelete: false,
       },
     });
   }
