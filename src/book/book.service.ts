@@ -39,15 +39,15 @@ export class BookService {
     try {
       return await this.bookRepository.save({
         title: title,
-        author_id: authorId,
-        category_id: categoryId,
-        publish_year: publishYear,
+        authorId: authorId,
+        categoryId: categoryId,
+        publishYear: publishYear,
         price: price,
         description: description,
         cover: cover,
         createdAt: getDateNow(),
         updateAt: null,
-        is_delete: false,
+        isDelete: false,
       });
     } catch (error) {
       console.log(error);
@@ -75,9 +75,9 @@ export class BookService {
         ...found,
         id: id,
         title: title,
-        author_id: authorId,
-        category_id: categoryId,
-        publish_year: publishYear,
+        authorId: authorId,
+        categoryId: categoryId,
+        publishYear: publishYear,
         price: price,
         description: description,
         cover: cover,
@@ -93,7 +93,7 @@ export class BookService {
       try {
         await this.bookRepository.save({
           ...found,
-          is_delete: true,
+          isDelete: true,
         });
         return `delete book with Id=${id} is succes !`;
       } catch (error) {

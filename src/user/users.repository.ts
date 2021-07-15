@@ -23,7 +23,7 @@ export class UserRepository extends Repository<User> {
       avatar,
     };
     try {
-      return this.save(newUser);
+      return await this.save(newUser);
     } catch (error) {
       console.log(error);
       if (error.code === 23505) {

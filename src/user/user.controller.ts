@@ -7,18 +7,16 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-<<<<<<< HEAD
 import { AuthGuard } from '@nestjs/passport';
-=======
->>>>>>> category-api
+
 import { createUserDTO } from './dto/CreateUser.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
-@UseGuards(AuthGuard())
 export class UserController {
   constructor(private userService: UserService) {}
+  @UseGuards(AuthGuard())
   @Get('/:id')
   getUserById(@Param('id') id: string): Promise<User> {
     return this.userService.getUserById(id);
