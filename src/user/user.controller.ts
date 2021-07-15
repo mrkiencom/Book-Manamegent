@@ -7,7 +7,6 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { createUserDTO } from './dto/CreateUser.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -31,7 +30,6 @@ export class UserController {
     return this.userService.updateUserById(id, info);
   }
   @Get()
-  @UseGuards(AuthGuard())
   get(): Promise<User[]> {
     return this.userService.get();
   }

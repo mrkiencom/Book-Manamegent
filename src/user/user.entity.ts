@@ -7,9 +7,9 @@ export class User {
   email: string;
   @Column()
   password: string;
-  @Column()
-  firstName: string;
-  @Column()
+  @Column({ name: 'first_name' })
+  firtName: string;
+  @Column({ name: 'last_name' })
   lastName: string;
   @Column()
   avatar: string;

@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Message } from 'src/error/message-eror';
 import { Author } from './author.entity';
 import { AuthorRepository } from './author.repository';
 import { AuthorDto } from './dto/author-update.dto';
@@ -22,7 +23,7 @@ export class AuthorService {
   async getAuthorById(id: string): Promise<Author> {
     const found = await this.authorRepository.findOne({ id });
     if (!found) {
-      throw new NotFoundException(`Not Found User with ID=${id}`);
+      throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
     }
     return found;
   }
@@ -40,7 +41,7 @@ export class AuthorService {
   async deleteAuthor(id: string): Promise<string> {
     const found = await this.getAuthorById(id);
     if (!found) {
-      throw new NotFoundException(`Not Found User with ID=${id}`);
+      throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
     } else {
       await this.authorRepository.delete({ id });
       return 'delete succes ! ';
