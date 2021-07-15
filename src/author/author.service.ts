@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -14,6 +16,7 @@ import { AuthorDto } from './dto/author-update.dto';
 export class AuthorService {
   constructor(
     @InjectRepository(AuthorRepository)
+    @Inject(forwardRef(() => AuthorService))
     private authorRepository: AuthorRepository,
   ) {}
 

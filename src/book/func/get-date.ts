@@ -4,6 +4,6 @@ export const getDateNow = () => {
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
 
-  const timeNow = yyyy + '/' + mm + '/' + dd;
+  const timeNow = dd + '/' + mm + '/' + yyyy;
   return timeNow;
 };

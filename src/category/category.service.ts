@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -13,13 +15,20 @@ import { CategoryRepository } from './category.repository';
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryRepository)
+    @Inject(forwardRef(() => CategoryService))
     private categoryRepository: CategoryRepository,
   ) {}
   async getAllCategory(): Promise<Category[]> {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.find({
+      where: {
+        isDelete: false,
+      },
+    });
   }
   async getCategoryById(id: string): Promise<Category> {
-    const found = await this.categoryRepository.findOne({ id });
+    const found = await this.categoryRepository.findOne({
+      where: { id: id, isDelete: false },
+    });
     if (!found) {
       throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
     }

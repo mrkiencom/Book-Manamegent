@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 
@@ -32,6 +32,7 @@ import { configValidationSchema } from './config.schema';
         };
       },
     }),
+
     UserModule,
     CategoryModule,
     AuthModule,
