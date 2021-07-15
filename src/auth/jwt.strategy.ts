@@ -1,3 +1,4 @@
+
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
@@ -23,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const { email } = payload;
     const user: User = await this.userRepository.findOne({ email });
     if (!user) {
-      throw new UnauthorizedException();
+      throw new NotFoundException();
     }
     return user;
   }

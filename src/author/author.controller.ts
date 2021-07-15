@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { Author } from './author.entity';
 import { AuthorService } from './author.service';
+import { AuthorDto } from './dto/author-update.dto';
 
 @Controller('author')
 export class AuthorController {
@@ -28,9 +29,9 @@ export class AuthorController {
   @Patch('/:id')
   updateAuthor(
     @Param('id') id: string,
-    @Body('name') name: string,
+    @Body() updateDto: AuthorDto,
   ): Promise<Author> {
-    return this.authorService.updateAuthor(id, name);
+    return this.authorService.updateAuthor(id, updateDto);
   }
   @Delete('/:id')
   deleteAuthor(@Param('id') id: string): Promise<string> {
