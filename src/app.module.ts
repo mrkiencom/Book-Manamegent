@@ -7,7 +7,6 @@ import { CategoryModule } from './category/category.module';
 import { AuthorModule } from './author/author.module';
 import { BookModule } from './book/book.module';
 import { AuthModule } from './auth/auth.module';
-import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 
