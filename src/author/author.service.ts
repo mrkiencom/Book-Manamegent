@@ -62,7 +62,7 @@ export class AuthorService {
     } catch (error) {
       console.log(error);
       if (error.code === 23505) {
-        throw new ConflictException('Author a already exits');
+        throw new ConflictException(Message.ALREADY_EXIST.author);
       } else throw new InternalServerErrorException();
     }
   }

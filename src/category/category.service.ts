@@ -44,7 +44,7 @@ export class CategoryService {
     } catch (error) {
       console.log(error);
       if (error.code === 23505) {
-        throw new ConflictException('Author a already exits');
+        throw new ConflictException(Message.ALREADY_EXIST.category);
       }
       throw new InternalServerErrorException();
     }
