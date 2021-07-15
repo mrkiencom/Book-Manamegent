@@ -28,8 +28,8 @@ export class UserService {
       id: id,
       email: email,
       password: password,
-      first_Name: firstName,
-      last_Name: lastName,
+      firstName: firstName,
+      lastName: lastName,
       avata: avatar,
     });
   }

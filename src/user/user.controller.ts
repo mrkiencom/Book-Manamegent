@@ -15,12 +15,7 @@ import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    private userService: UserService,
-    private configService: ConfigService,
-  ) {
-    console.log(configService.get('TEST_VALUE'));
-  }
+  constructor(private userService: UserService) {}
   @Get('/:id')
   getUserById(@Param('id') id: string): Promise<User> {
     return this.userService.getUserById(id);
@@ -37,7 +32,6 @@ export class UserController {
     return this.userService.updateUserById(id, info);
   }
   @Get()
-  @UseGuards(AuthGuard())
   get(): Promise<User[]> {
     return this.userService.get();
   }
