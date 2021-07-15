@@ -28,7 +28,7 @@ export class BookService {
     const found = await this.bookRepository.findOne({
       where: {
         id: id,
-        is_delete: false,
+        isDelete: false,
       },
     });
     if (!found) {
@@ -60,9 +60,9 @@ export class BookService {
     try {
       return await this.bookRepository.save({
         title: title,
-        author_id: authorId,
-        category_id: categoryId,
-        publish_year: publishYear,
+        authorId: authorId,
+        categoryId: categoryId,
+        publishYear: publishYear,
         price: price,
         description: description,
         cover: cover,
@@ -70,7 +70,7 @@ export class BookService {
         updatedAt: '',
         author: author,
         category: category,
-        is_delete: false,
+        isDelete: false,
       });
     } catch (error) {
       console.log(error);
@@ -94,6 +94,7 @@ export class BookService {
         description,
         cover,
       } = updateInfoBook;
+<<<<<<< HEAD
       const author = await getConnection()
         .getRepository(Author)
         .createQueryBuilder('author')
@@ -126,6 +127,20 @@ export class BookService {
           throw new ConflictException('Book a already exits');
         } else throw new InternalServerErrorException();
       }
+=======
+      return this.bookRepository.save({
+        ...found,
+        id: id,
+        title: title,
+        authorId: authorId,
+        categoryId: categoryId,
+        publishYear: publishYear,
+        price: price,
+        description: description,
+        cover: cover,
+        updatedAt: getDateNow(),
+      });
+>>>>>>> book-api
     }
   }
   async deleteBook(id: string): Promise<string> {
@@ -136,7 +151,7 @@ export class BookService {
       try {
         await this.bookRepository.save({
           ...found,
-          is_delete: true,
+          isDelete: true,
         });
         return `delete book with Id=${id} is succes !`;
       } catch (error) {

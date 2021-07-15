@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { BookModule } from 'src/book/book.module';

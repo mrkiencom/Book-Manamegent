@@ -8,6 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
 import { createUserDTO } from './dto/CreateUser.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -15,6 +16,7 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+  @UseGuards(AuthGuard())
   @Get('/:id')
   @UseGuards(AuthGuard())
   getUserById(@Param('id') id: string): Promise<User> {

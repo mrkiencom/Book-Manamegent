@@ -15,7 +15,7 @@ export class createUserDTO {
   @MinLength(8)
   password: string;
   @IsNotEmpty()
-  firstName: string;
+  firstName?: string;
   @IsNotEmpty()
   lastName: string;
   @IsNotEmpty()

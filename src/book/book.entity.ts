@@ -11,15 +11,15 @@ export class Book {
   @Column()
   @IsNotEmpty()
   title: string;
-  @Column()
+  @Column({ name: 'author_id' })
   @IsNotEmpty()
-  author_id: string;
-  @Column()
+  authorId: string;
+  @Column({ name: 'category_id' })
   @IsNotEmpty()
-  category_id: string;
-  @Column()
+  categoryId: string;
+  @Column({ name: 'publish_year' })
   @IsNotEmpty()
-  publish_year: string;
+  publishYear: string;
   @Column()
   @IsNotEmpty()
   price: string;
@@ -29,7 +29,7 @@ export class Book {
   @Column()
   @IsNotEmpty()
   cover: string;
-  @Column()
+  @Column({ name: 'create_at' })
   @IsNotEmpty()
   createdAt: string;
   @Column()
@@ -45,5 +45,5 @@ export class Book {
   })
   category: Category;
   @Column()
-  is_delete: boolean;
+  isDelete: boolean;
 }
