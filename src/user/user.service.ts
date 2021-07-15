@@ -24,10 +24,6 @@ export class UserService {
   }
   async updateUserById(id: string, info: createUserDTO): Promise<User> {
     const { email, password, firstName, lastName, avatar } = info;
-<<<<<<< HEAD
-=======
-
->>>>>>> 15d8824a2a9ad25299066c3faeee2e79e3bae2cc
     const user = this.userRepository.findOne({ id });
     if (!user) {
       throw new NotFoundException(`Not found user with id=${id}`);
@@ -37,21 +33,12 @@ export class UserService {
         id: id,
         email: email,
         password: password,
-<<<<<<< HEAD
         firstName: firstName,
         lastName: lastName,
-=======
-        first_Name: firstName,
-        last_Name: lastName,
->>>>>>> 15d8824a2a9ad25299066c3faeee2e79e3bae2cc
         avata: avatar,
       });
     } catch (error) {
       console.log(error);
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 15d8824a2a9ad25299066c3faeee2e79e3bae2cc
   }
 }
