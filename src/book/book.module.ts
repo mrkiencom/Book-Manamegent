@@ -9,12 +9,7 @@ import { BookRepository } from './book.repository';
 import { BookService } from './book.service';
 
 @Module({
-  imports: [
-    forwardRef(() => AuthorModule),
-    forwardRef(() => CategoryModule),
-    TypeOrmModule.forFeature([BookRepository]),
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forFeature([BookRepository]), AuthModule],
   controllers: [BookController],
   providers: [BookService],
 })

@@ -21,9 +21,9 @@ export class BookService {
   ) {}
 
   async getBooks(searchBooks: string): Promise<Book[]> {
-    // return await this.bookRepository.find({ title: searchBooks });
     return this.bookRepository.getBook(searchBooks);
   }
+
   async getBookById(id: string): Promise<Book> {
     const found = await this.bookRepository.findOne({
       where: {
@@ -46,17 +46,26 @@ export class BookService {
       description,
       cover,
     } = newBook;
-    const author = await getConnection()
-      .getRepository(Author)
-      .createQueryBuilder('author')
-      .where('author.id = :authorId', { authorId })
-      .getOne();
-    const category = await getConnection()
-      .getRepository(Category)
-      .createQueryBuilder('category')
-      .where('category.id = :categoryId', { categoryId })
-      .getOne();
-    console.log(author, category);
+    try {
+      var author = await getConnection()
+        .getRepository(Author)
+        .createQueryBuilder('author')
+        .where('author.id = :authorId', { authorId })
+        .getOne();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+
+    try {
+      var category = await getConnection()
+        .getRepository(Category)
+        .createQueryBuilder('category')
+        .where('category.id = :categoryId', { categoryId })
+        .getOne();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+
     try {
       return await this.bookRepository.save({
         title: title,
@@ -76,7 +85,8 @@ export class BookService {
       console.log(error);
       if (error.code === 23505) {
         throw new ConflictException('Book a already exits');
-      } else throw new InternalServerErrorException();
+      }
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -94,6 +104,7 @@ export class BookService {
         description,
         cover,
       } = updateInfoBook;
+
       const author = await getConnection()
         .getRepository(Author)
         .createQueryBuilder('author')
@@ -104,15 +115,14 @@ export class BookService {
         .createQueryBuilder('category')
         .where('category.id = :categoryId', { categoryId })
         .getOne();
-
       try {
         return await this.bookRepository.save({
           ...found,
           id: id,
           title: title,
-          author_id: authorId,
-          category_id: categoryId,
-          publish_year: publishYear,
+          authorId: authorId,
+          categoryId: categoryId,
+          publishYear: publishYear,
           price: price,
           description: description,
           cover: cover,
@@ -124,7 +134,8 @@ export class BookService {
         console.log(error);
         if (error.code === 23505) {
           throw new ConflictException('Book a already exits');
-        } else throw new InternalServerErrorException();
+        }
+        throw new InternalServerErrorException();
       }
     }
   }
