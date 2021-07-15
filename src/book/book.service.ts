@@ -16,7 +16,6 @@ export class BookService {
     @InjectRepository(BookRepository) private bookRepository: BookRepository,
   ) {}
   async getBooks(searchBooks: string): Promise<Book[]> {
-    // return await this.bookRepository.find({ title: searchBooks });
     return this.bookRepository.getBook(searchBooks);
   }
   async getBookById(id: string): Promise<Book> {

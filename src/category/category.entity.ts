@@ -8,6 +8,6 @@ export class Category {
   @Column()
   @IsNotEmpty()
   name: string;
-  @Column()
-  is_delete: boolean;
+  @Column({ name: 'is_delete' })
+  isDelete: boolean;
 }
