@@ -21,49 +21,48 @@ export class CategoryService {
   async getAllCategory(): Promise<Category[]> {
     return await this.categoryRepository.find({
       where: {
-        isDelete: false,
+        isDeleted: false,
       },
     });
   }
   async getCategoryById(id: string): Promise<Category> {
     const found = await this.categoryRepository.findOne({
-      where: { id: id, isDelete: false },
+      where: { id: id, isDeleted: false },
     });
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
+      throw new NotFoundException(`${Message.NOT_FOUND.CATEGORY}=${id}`);
     }
     return found;
   }
   async createCategory(name: string): Promise<Category> {
     const newCategory = {
       name: name,
-      isDelete: false,
     };
     try {
-      return await this.categoryRepository.save(newCategory);
+      return await this.categoryRepository.save({ ...newCategory, name });
     } catch (error) {
-      console.log(error);
       if (error.code === 23505) {
-        throw new ConflictException(Message.ALREADY_EXIST.category);
+        throw new ConflictException(Message.ALREADY_EXIST.CATEGORY);
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error.message);
     }
   }
   async updateCategory(id: string, name: string): Promise<Category> {
     const found = await this.getCategoryById(id);
-    found.name = name;
-    if (found) return this.categoryRepository.save(found);
-    else {
-      throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
+    if (!found) {
+      throw new NotFoundException(`${Message.NOT_FOUND.CATEGORY}=${id}`);
+    }
+    try {
+      return this.categoryRepository.save({ ...found, name });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
-  async deleteCategory(id: string): Promise<string> {
+  async deleteCategory(id: string): Promise<Category> {
     const found = await this.getCategoryById(id);
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
-    } else {
-      await this.categoryRepository.save({ ...found, isDelete: true });
-      return 'delete category succes ! ';
+      throw new NotFoundException(`${Message.NOT_FOUND.CATEGORY}=${id}`);
     }
+    return await this.categoryRepository.save({ ...found, isDeleted: true });
   }
 }

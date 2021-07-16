@@ -13,14 +13,15 @@ import { AuthGuard } from '@nestjs/passport';
 import { Book } from './book.entity';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
+import { GetBooksFilterDto } from './dto/book-filter';
 
 @Controller('book')
 @UseGuards(AuthGuard())
 export class BookController {
   constructor(private bookService: BookService) {}
   @Get()
-  getBooks(@Query('search') searchBook: string): Promise<Book[]> {
-    return this.bookService.getBooks(searchBook);
+  getBooks(@Query() searchBookDto: GetBooksFilterDto): Promise<Book[]> {
+    return this.bookService.getBooks(searchBookDto);
   }
   @Get('/:id')
   getBookById(@Param('id') id: string): Promise<Book> {
@@ -38,7 +39,7 @@ export class BookController {
     return this.bookService.updateBook(id, newInfoBook);
   }
   @Delete('/:id')
-  deleteBook(@Param('id') id: string): Promise<string> {
+  deleteBook(@Param('id') id: string): Promise<Book> {
     return this.bookService.deleteBook(id);
   }
 }

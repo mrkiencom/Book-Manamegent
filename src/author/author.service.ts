@@ -16,7 +16,6 @@ import { AuthorDto } from './dto/author-update.dto';
 export class AuthorService {
   constructor(
     @InjectRepository(AuthorRepository)
-    @Inject(forwardRef(() => AuthorService))
     private authorRepository: AuthorRepository,
   ) {}
 
@@ -26,44 +25,49 @@ export class AuthorService {
   async getAuthorById(id: string): Promise<Author> {
     const found = await this.authorRepository.findOne({ id });
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
+      throw new NotFoundException(`${Message.NOT_FOUND.AUTHOR}=${id}`);
     }
     return found;
   }
   async updateAuthor(id: string, updateDto: AuthorDto): Promise<Author> {
     const { name } = updateDto;
     const found = await this.getAuthorById(id);
-    if (found) {
-      found.name = name;
-      return await this.authorRepository.save(found);
-    }
-  }
-  async deleteAuthor(id: string): Promise<string> {
-    const found = await this.getAuthorById(id);
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
-    } else {
-      found.isDelete = true;
-      try {
-        await this.authorRepository.save(found);
-        return 'delete succes ! ';
-      } catch (error) {
-        console.log(error);
-      }
+      throw new NotFoundException(`${Message.NOT_FOUND.AUTHOR}=${id}`);
+    }
+
+    try {
+      return await this.authorRepository.save({ ...found, name });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
+  async deleteAuthor(id: string): Promise<Author> {
+    const found = await this.authorRepository.findOne({
+      where: { id, isDeleted: false },
+    });
+    if (!found) {
+      throw new NotFoundException(`${Message.NOT_FOUND.AUTHOR}=${id}`);
+    }
+
+    try {
+      return await this.authorRepository.save({ ...found, isDeleted: true });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
   async createAuthor(name: string): Promise<Author> {
     const newAuthor = {
       name: name,
-      isDelete: false,
     };
     try {
       return await this.authorRepository.save(newAuthor);
     } catch (error) {
-      console.log(error);
       if (error.code === 23505) {
-        throw new ConflictException(Message.ALREADY_EXIST.author);
-      } else throw new InternalServerErrorException();
+        throw new ConflictException(Message.ALREADY_EXIST.AUTHOR);
+      }
+      throw new InternalServerErrorException();
     }
   }
 }

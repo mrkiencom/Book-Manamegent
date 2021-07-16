@@ -18,8 +18,8 @@ export class UserRepository extends Repository<User> {
     const newUser = {
       email,
       password: hashedPassword,
-      firstName: firstName,
-      lastName: lastName,
+      firstName,
+      lastName,
       avatar,
     };
     try {

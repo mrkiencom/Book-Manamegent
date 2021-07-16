@@ -1,17 +1,26 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class BookDto {
   @IsNotEmpty()
   title: string;
+
   @IsNotEmpty()
-  authorId: string;
+  authorName: string;
+
   @IsNotEmpty()
-  categoryId: string;
+  categoryName: string;
+
   @IsNotEmpty()
   publishYear: string;
+
   @IsNotEmpty()
   price: string;
-  description: string;
+
   @IsNotEmpty()
+  @IsOptional()
+  description: string;
+
+  @IsNotEmpty()
+  @IsOptional()
   cover: string;
 }

@@ -35,7 +35,7 @@ export class CategoryController {
     return this.categoryService.updateCategory(id, name);
   }
   @Delete('/:id')
-  deleteCategory(@Param('id') id: string): Promise<string> {
+  deleteCategory(@Param('id') id: string): Promise<Category> {
     return this.categoryService.deleteCategory(id);
   }
 }

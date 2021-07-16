@@ -1,7 +1,14 @@
 import { Contains, IsDefined, IsNotEmpty, IsOptional } from 'class-validator';
 import { Author } from 'src/author/author.entity';
 import { Category } from 'src/category/category.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { BookService } from './book.service';
 
 @Entity()
@@ -9,32 +16,32 @@ export class Book {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column()
-  @IsNotEmpty()
   title: string;
+
   @Column({ name: 'author_id' })
-  @IsNotEmpty()
   authorId: string;
+
   @Column({ name: 'category_id' })
-  @IsNotEmpty()
   categoryId: string;
+
   @Column({ name: 'publish_year' })
-  @IsNotEmpty()
   publishYear: string;
+
   @Column()
-  @IsNotEmpty()
   price: string;
+
   @Column()
-  @IsNotEmpty()
   description: string;
+
   @Column()
-  @IsNotEmpty()
   cover: string;
-  @Column({ name: 'create_at' })
-  @IsNotEmpty()
+
+  @CreateDateColumn({ name: 'create_at' })
   createdAt: string;
-  @Column({ name: 'update_at' })
-  @IsOptional()
+
+  @UpdateDateColumn({ name: 'update_at' })
   updatedAt: string;
+
   @ManyToOne((_type) => Author, (author) => author.books, {
     eager: false,
   })
@@ -44,6 +51,7 @@ export class Book {
     eager: false,
   })
   category: Category;
-  @Column()
-  isDelete: boolean;
+
+  @Column({ name: 'is_deleted' })
+  isDeleted: boolean;
 }

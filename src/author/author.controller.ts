@@ -37,7 +37,7 @@ export class AuthorController {
     return this.authorService.updateAuthor(id, updateDto);
   }
   @Delete('/:id')
-  deleteAuthor(@Param('id') id: string): Promise<string> {
+  deleteAuthor(@Param('id') id: string): Promise<Author> {
     return this.authorService.deleteAuthor(id);
   }
 }
