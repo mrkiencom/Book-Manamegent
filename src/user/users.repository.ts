@@ -12,10 +12,8 @@ import { Message } from 'src/error/message-eror';
 export class UserRepository extends Repository<User> {
   async createUser(user: createUserDTO): Promise<User> {
     const { email, password, firstName, lastName, avatar } = user;
-
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
-
     const newUser = {
       email,
       password: hashedPassword,

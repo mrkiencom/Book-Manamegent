@@ -18,6 +18,7 @@ export class CategoryService {
     @Inject(forwardRef(() => CategoryService))
     private categoryRepository: CategoryRepository,
   ) {}
+
   async getAllCategory(): Promise<Category[]> {
     return await this.categoryRepository.find({
       where: {
@@ -25,6 +26,7 @@ export class CategoryService {
       },
     });
   }
+
   async getCategoryById(id: string): Promise<Category> {
     const found = await this.categoryRepository.findOne({
       where: { id: id, isDeleted: false },
@@ -34,6 +36,7 @@ export class CategoryService {
     }
     return found;
   }
+
   async createCategory(name: string): Promise<Category> {
     const newCategory = {
       name: name,
@@ -47,6 +50,7 @@ export class CategoryService {
       throw new InternalServerErrorException(error.message);
     }
   }
+
   async updateCategory(id: string, name: string): Promise<Category> {
     const found = await this.getCategoryById(id);
     if (!found) {
@@ -58,6 +62,7 @@ export class CategoryService {
       throw new InternalServerErrorException(error.message);
     }
   }
+
   async deleteCategory(id: string): Promise<Category> {
     const found = await this.getCategoryById(id);
     if (!found) {

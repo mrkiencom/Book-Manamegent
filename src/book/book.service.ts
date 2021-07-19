@@ -43,6 +43,7 @@ export class BookService {
     }
     return found;
   }
+
   async createCategory(categoryName: string): Promise<Category> {
     const categoryFound = await this.categoryRepository.findOne({
       name: categoryName,
@@ -57,6 +58,7 @@ export class BookService {
 
     return categoryFound;
   }
+
   async createAuthor(authorName: string): Promise<Author> {
     const authorFound = await this.authorRepository.findOne({
       name: authorName,
@@ -69,6 +71,7 @@ export class BookService {
     }
     return authorFound;
   }
+
   async createBook(newBook: BookDto): Promise<Book> {
     const {
       title,
@@ -141,6 +144,7 @@ export class BookService {
       throw new InternalServerErrorException(error);
     }
   }
+
   async deleteBook(id: string): Promise<Book> {
     const found = this.getBookById(id);
     if (!found) {
