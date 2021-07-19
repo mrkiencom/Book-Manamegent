@@ -59,7 +59,7 @@ export class AuthorService {
 
   async createAuthor(name: string): Promise<Author> {
     const newAuthor = {
-      name: name,
+      name,
     };
     try {
       return await this.authorRepository.save(newAuthor);

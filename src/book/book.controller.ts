@@ -23,14 +23,17 @@ export class BookController {
   getBooks(@Query() searchBookDto: GetBooksFilterDto): Promise<Book[]> {
     return this.bookService.getBooks(searchBookDto);
   }
+
   @Get('/:id')
   getBookById(@Param('id') id: string): Promise<Book> {
     return this.bookService.getBookById(id);
   }
+
   @Post()
   createBook(@Body() newBook: BookDto): Promise<Book> {
     return this.bookService.createBook(newBook);
   }
+
   @Patch('/:id')
   updateBook(
     @Param('id') id: string,
@@ -38,6 +41,7 @@ export class BookController {
   ): Promise<Book> {
     return this.bookService.updateBook(id, newInfoBook);
   }
+
   @Delete('/:id')
   deleteBook(@Param('id') id: string): Promise<Book> {
     return this.bookService.deleteBook(id);

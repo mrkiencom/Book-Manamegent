@@ -6,11 +6,14 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 export class Author {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   @IsNotEmpty()
   name: string;
+
   @OneToMany((_type) => Book, (book) => book.author, { eager: true })
   books: Book[];
+
   @Column({ name: 'is_deleted', default: false })
   isDeleted: boolean;
 }

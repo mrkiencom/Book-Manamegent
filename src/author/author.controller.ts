@@ -21,14 +21,17 @@ export class AuthorController {
   getAllAuthor(): Promise<Author[]> {
     return this.authorService.getAllAuthor();
   }
+
   @Post()
   createAuthor(@Body('name') name: string): Promise<Author> {
     return this.authorService.createAuthor(name);
   }
+
   @Get('/:id')
   getAuthorById(@Param('id') id: string): Promise<Author> {
     return this.authorService.getAuthorById(id);
   }
+
   @Patch('/:id')
   updateAuthor(
     @Param('id') id: string,
@@ -36,6 +39,7 @@ export class AuthorController {
   ): Promise<Author> {
     return this.authorService.updateAuthor(id, updateDto);
   }
+
   @Delete('/:id')
   deleteAuthor(@Param('id') id: string): Promise<Author> {
     return this.authorService.deleteAuthor(id);

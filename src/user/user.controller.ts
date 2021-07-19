@@ -13,29 +13,24 @@ import { createUserDTO } from './dto/CreateUser.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
+@UseGuards(AuthGuard())
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
-  @UseGuards(AuthGuard())
   @Get('/:id')
-  @UseGuards(AuthGuard())
   getUserById(@Param('id') id: string): Promise<User> {
     return this.userService.getUserById(id);
   }
-  @Post('/signup')
-  createUser(@Body() info: createUserDTO): Promise<User> {
-    return this.userService.createUser(info);
-  }
+
   @Patch('/:id')
-  @UseGuards(AuthGuard())
   updateUserById(
     @Param('id') id: string,
     @Body() info: createUserDTO,
   ): Promise<User> {
     return this.userService.updateUserById(id, info);
   }
+
   @Get()
-  @UseGuards(AuthGuard())
   get(): Promise<User[]> {
     return this.userService.get();
   }
