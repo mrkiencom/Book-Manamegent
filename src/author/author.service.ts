@@ -64,7 +64,7 @@ export class AuthorService {
     try {
       return await this.authorRepository.save(newAuthor);
     } catch (error) {
-      if (error.code === 23505) {
+      if (error.code === Message.ERROR_CODE.EXIST) {
         throw new ConflictException(Message.ALREADY_EXIST.AUTHOR);
       }
       throw new InternalServerErrorException();

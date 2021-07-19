@@ -96,7 +96,7 @@ export class BookService {
       });
     } catch (error) {
       console.log(error);
-      if (error.code === 23505) {
+      if (error.code === Message.ERROR_CODE.EXIST) {
         throw new ConflictException(Message.ALREADY_EXIST.BOOK);
       }
       throw new InternalServerErrorException(error.message);
@@ -135,7 +135,7 @@ export class BookService {
         category: newCreatedCategory,
       });
     } catch (error) {
-      if (error.code === 23505) {
+      if (error.code === Message.ERROR_CODE.EXIST) {
         throw new ConflictException(Message.ALREADY_EXIST.BOOK);
       }
       throw new InternalServerErrorException(error);

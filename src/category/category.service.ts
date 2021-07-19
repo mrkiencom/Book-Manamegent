@@ -41,7 +41,7 @@ export class CategoryService {
     try {
       return await this.categoryRepository.save({ ...newCategory, name });
     } catch (error) {
-      if (error.code === 23505) {
+      if (error.code === Message.ERROR_CODE.EXIST) {
         throw new ConflictException(Message.ALREADY_EXIST.CATEGORY);
       }
       throw new InternalServerErrorException(error.message);

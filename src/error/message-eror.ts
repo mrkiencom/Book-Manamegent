@@ -18,4 +18,7 @@ export const Message = {
     CATEGORY: 'Category is already exist',
     USER: 'User is already exist',
   },
+  ERROR_CODE: {
+    EXIST: 23505,
+  },
 };
