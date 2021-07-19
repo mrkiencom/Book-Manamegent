@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -23,41 +25,49 @@ export class AuthorService {
   async getAuthorById(id: string): Promise<Author> {
     const found = await this.authorRepository.findOne({ id });
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
+      throw new NotFoundException(`${Message.NOT_FOUND.AUTHOR}=${id}`);
     }
     return found;
   }
   async updateAuthor(id: string, updateDto: AuthorDto): Promise<Author> {
     const { name } = updateDto;
     const found = await this.getAuthorById(id);
-    if (found) {
-      console.log(found);
-      return await this.authorRepository.save({
-        id: id,
-        name: name,
-      });
-    }
-  }
-  async deleteAuthor(id: string): Promise<string> {
-    const found = await this.getAuthorById(id);
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.author}=${id}`);
-    } else {
-      await this.authorRepository.delete({ id });
-      return 'delete succes ! ';
+      throw new NotFoundException(`${Message.NOT_FOUND.AUTHOR}=${id}`);
+    }
+
+    try {
+      return await this.authorRepository.save({ ...found, name });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
+  async deleteAuthor(id: string): Promise<Author> {
+    const found = await this.authorRepository.findOne({
+      where: { id, isDeleted: false },
+    });
+    if (!found) {
+      throw new NotFoundException(`${Message.NOT_FOUND.AUTHOR}=${id}`);
+    }
+
+    try {
+      return await this.authorRepository.save({ ...found, isDeleted: true });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
   async createAuthor(name: string): Promise<Author> {
     const newAuthor = {
-      name: name,
+      name,
     };
     try {
       return await this.authorRepository.save(newAuthor);
     } catch (error) {
-      console.log(error);
-      if (error.code === 23505) {
-        throw new ConflictException('Author a already exits');
-      } else throw new InternalServerErrorException();
+      if (error.code === Message.ERROR_CODE.EXIST) {
+        throw new ConflictException(Message.ALREADY_EXIST.AUTHOR);
+      }
+      throw new InternalServerErrorException();
     }
   }
 }

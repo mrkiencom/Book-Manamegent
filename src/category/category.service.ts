@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -13,15 +15,22 @@ import { CategoryRepository } from './category.repository';
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryRepository)
+    @Inject(forwardRef(() => CategoryService))
     private categoryRepository: CategoryRepository,
   ) {}
   async getAllCategory(): Promise<Category[]> {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.find({
+      where: {
+        isDeleted: false,
+      },
+    });
   }
   async getCategoryById(id: string): Promise<Category> {
-    const found = await this.categoryRepository.findOne({ id });
+    const found = await this.categoryRepository.findOne({
+      where: { id: id, isDeleted: false },
+    });
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
+      throw new NotFoundException(`${Message.NOT_FOUND.CATEGORY}=${id}`);
     }
     return found;
   }
@@ -30,30 +39,30 @@ export class CategoryService {
       name: name,
     };
     try {
-      return await this.categoryRepository.save(newCategory);
+      return await this.categoryRepository.save({ ...newCategory, name });
     } catch (error) {
-      console.log(error);
-      if (error.code === 23505) {
-        throw new ConflictException('Author a already exits');
+      if (error.code === Message.ERROR_CODE.EXIST) {
+        throw new ConflictException(Message.ALREADY_EXIST.CATEGORY);
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error.message);
     }
   }
   async updateCategory(id: string, name: string): Promise<Category> {
     const found = await this.getCategoryById(id);
-    found.name = name;
-    if (found) return this.categoryRepository.save(found);
-    else {
-      throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
+    if (!found) {
+      throw new NotFoundException(`${Message.NOT_FOUND.CATEGORY}=${id}`);
+    }
+    try {
+      return this.categoryRepository.save({ ...found, name });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
   }
-  async deleteCategory(id: string): Promise<string> {
+  async deleteCategory(id: string): Promise<Category> {
     const found = await this.getCategoryById(id);
     if (!found) {
-      throw new NotFoundException(`${Message.NOT_FOUND.cateogory}=${id}`);
-    } else {
-      await this.categoryRepository.delete({ id });
-      return 'delete category succes ! ';
+      throw new NotFoundException(`${Message.NOT_FOUND.CATEGORY}=${id}`);
     }
+    return await this.categoryRepository.save({ ...found, isDeleted: true });
   }
 }

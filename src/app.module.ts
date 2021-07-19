@@ -1,14 +1,12 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 
-import { CategoryController } from './category/category.controller';
-import { CategoryService } from './category/category.service';
 import { CategoryModule } from './category/category.module';
 
-import { AuthModule } from './auth/auth.module';
 import { AuthorModule } from './author/author.module';
-import { PassportModule } from '@nestjs/passport';
+import { BookModule } from './book/book.module';
+import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 
@@ -22,7 +20,13 @@ import { configValidationSchema } from './config.schema';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
+        const isProduction = configService.get('STAGE') === 'prod';
+
         return {
+          ssl: isProduction,
+          extra: {
+            ssl: isProduction ? { rejectUnauthorized: false } : null,
+          },
           type: 'postgres',
           autoLoadEntities: true,
           synchronize: true,
@@ -34,10 +38,12 @@ import { configValidationSchema } from './config.schema';
         };
       },
     }),
+
     UserModule,
     CategoryModule,
     AuthModule,
     AuthorModule,
+    BookModule,
   ],
 })
 export class AppModule {}

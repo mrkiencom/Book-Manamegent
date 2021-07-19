@@ -9,20 +9,20 @@ export class UserService {
   constructor(
     @InjectRepository(UserRepository) private userRepository: UserRepository,
   ) {}
-  async createUser(info: createUserDTO): Promise<User> {
-    return this.userRepository.createUser(info);
-  }
+
   get(): Promise<User[]> {
     return this.userRepository.find();
   }
-  getUserById(id: string): Promise<User> {
+
+  async getUserById(id: string): Promise<User> {
     const found = this.userRepository.findOne({ id });
     if (!found) {
       throw new NotFoundException(`Not Found User with ID=${id}`);
     }
     return found;
   }
-  updateUserById(id: string, info: createUserDTO): Promise<User> {
+
+  async updateUserById(id: string, info: createUserDTO): Promise<User> {
     const { email, password, firstName, lastName, avatar } = info;
     const user = this.userRepository.findOne({ id });
     if (!user) {
@@ -33,8 +33,8 @@ export class UserService {
         id: id,
         email: email,
         password: password,
-        first_Name: firstName,
-        last_Name: lastName,
+        firstName: firstName,
+        lastName: lastName,
         avata: avatar,
       });
     } catch (error) {

@@ -4,6 +4,8 @@ import { UserRepository } from 'src/user/users.repository';
 import { AuthUser } from './dto/auth-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { createUserDTO } from 'src/user/dto/CreateUser.dto';
+import { User } from 'src/user/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
@@ -19,5 +21,8 @@ export class AuthService {
     } else {
       throw new UnauthorizedException('please check your loggin credentials');
     }
+  }
+  async createUser(info: createUserDTO): Promise<User> {
+    return this.userRepository.createUser(info);
   }
 }
